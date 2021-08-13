@@ -21,7 +21,7 @@ class AlienInvasion:
         self.ship = Ship(self)
 
         # Назначем цвет фона
-        self.bg_color = (230, 230, 230)
+
 
     def run_game(self):
         """Запуск основного цикла игры."""
@@ -34,6 +34,10 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    # Переместить корабль в право.
+                    self.ship.rect.x += 1
 
     def _update_screen(self):
         """Обновляет изображение на экране и отоюбражает новый экран."""
