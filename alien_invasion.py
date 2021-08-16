@@ -4,6 +4,7 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
 
 class AlienInvasion:
     """ Класс для управления ресурсами и поведения игры. """
@@ -20,16 +21,17 @@ class AlienInvasion:
 
             #Создание корабля
         self.ship = Ship(self)
-
-        # Назначем цвет фона
-
+        self.bullets = pygame.sprite.Group()
 
     def run_game(self):
         """Запуск основного цикла игры."""
         while True:
                 self._check_events()
-                self._update_screen()
                 self.ship.update()
+                self._update_screen()
+                self._update_bullets()
+
+
 
     def _check_events(self):
         """Обрабатывает нажатие клавиш и мыши."""
@@ -51,6 +53,8 @@ class AlienInvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_ESCAPE:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     def _check_keyup_events(self, event):
         """Реагирует на отпуск клавиш."""
@@ -59,14 +63,27 @@ class AlienInvasion:
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
+    def _fire_bullet(self):
+        """ Создание нового снаряда и включение его в группу bullets. """
+        if len(self.bullets) < self.settings.bullet_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
-
-
+    def _update_bullets(self):
+        """ Обновляет позиции снаряда и уничтожает старые снаряды. """
+        # Обновление позиции снарядов.
+        self.bullets.update()
+        # Удаление снарядов, вышедших за крайн экрана.
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
     def _update_screen(self):
         """Обновляет изображение на экране и отоюбражает новый экран."""
         self.screen.fill(self.settings.bg_color)
         self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
 
         # Отслеживание последнего прорисованного экрана.
         pygame.display.flip()
