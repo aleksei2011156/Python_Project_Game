@@ -1,5 +1,4 @@
 import sys
-
 import pygame
 
 from settings import Settings
@@ -27,6 +26,7 @@ class AlienInvasion:
 
         self._create_fleet()
 
+
     def run_game(self):
         """Запуск основного цикла игры."""
         while True:
@@ -34,7 +34,6 @@ class AlienInvasion:
                 self.ship.update()
                 self._update_screen()
                 self._update_bullets()
-
 
 
     def _check_events(self):
@@ -46,7 +45,6 @@ class AlienInvasion:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
-
 
     #Рефакторинг _check_events_
     def _check_keydown_events(self, event):
@@ -107,7 +105,7 @@ class AlienInvasion:
         alien_width, alien_height = alien.rect.size
         alien.x = alien_width + 2 * alien_width * alien_number
         alien.rect.x = alien.x
-        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
+        alien.rect.y = alien.rect.height + (2 * alien.rect.height * row_number)
         self.aliens.add(alien)
 
     def _update_screen(self):
