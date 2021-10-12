@@ -6,6 +6,9 @@ class GameStats():
         self.settings = ai_game.settings
         self.reset_stats()
 
+        # Игра запускается в неактивном состоянии.
+        self.game_active = False
+
         # Игра Alien Invasion запускается в аквтином состоянии.
         self.game_active = True
 
