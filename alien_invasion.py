@@ -63,7 +63,8 @@ class AlienInvasion:
 
     def _check_play_button(self, mouse_pose):
         """Запускает новую игру при нажатии кнопки Play."""
-        if self.play_button.rect.collidepoint(mouse_pose):
+        button_clicked = self.play_button.rect.collidepoint(mouse_pose)
+        if button_clicked and not self.stats.game_active:
             # Сброс игровой статистики.
             self.stats.reset_stats()
             self.stats.game_active = True
@@ -75,6 +76,9 @@ class AlienInvasion:
             # Создание нового флота и размещение корабля в центре.
             self._create_fleet()
             self.ship.center_ship()
+
+            # Указатель мыши скрывается.
+            pygame.mouse.set_visible(False)
 
     #Рефакторинг _check_events_
     def _check_keydown_events(self, event):
@@ -155,6 +159,7 @@ class AlienInvasion:
             sleep(1)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _check_aliens_bottom(self):
         """Проверяет, добрались ли пришельцы до нижнего края экрана."""

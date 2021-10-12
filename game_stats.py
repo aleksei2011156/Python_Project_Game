@@ -9,8 +9,7 @@ class GameStats():
         # Игра запускается в неактивном состоянии.
         self.game_active = False
 
-        # Игра Alien Invasion запускается в аквтином состоянии.
-        self.game_active = True
+
 
 
     def reset_stats(self):
